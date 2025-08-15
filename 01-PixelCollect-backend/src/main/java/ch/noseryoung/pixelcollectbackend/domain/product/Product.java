@@ -1,6 +1,7 @@
 package ch.noseryoung.pixelcollectbackend.domain.product;
 
 import ch.noseryoung.pixelcollectbackend.domain.account.Account;
+import ch.noseryoung.pixelcollectbackend.domain.image.Image;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.UUID;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "product_id")
+    @Column(name = "product_id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false, unique = true, length = 254)
@@ -39,8 +40,10 @@ public class Product {
     @Length(max = 4000, message = "The description can't be longer than 4000 characters")
     private String description;
 
-    // todo: do validations
-    private String imageUrl;
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_image", referencedColumnName = "image_id")
+    private Image image;
 
     @Column(nullable = false)
     @NotNull(message = "Price cannot be null")

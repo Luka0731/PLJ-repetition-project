@@ -16,7 +16,7 @@ import java.util.UUID;
 public class GiftCard {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "gift_card_id")
+    @Column(name = "gift_card_id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false, unique = true, length = 16)
