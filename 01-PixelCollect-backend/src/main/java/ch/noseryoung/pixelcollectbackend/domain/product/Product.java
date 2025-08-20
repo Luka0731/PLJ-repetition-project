@@ -41,7 +41,7 @@ public class Product {
     private String description;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_image", referencedColumnName = "image_id")
     private Image image;
 

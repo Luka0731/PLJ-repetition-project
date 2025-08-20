@@ -14,7 +14,7 @@ import java.util.zip.Inflater;
 @Service
 public class ImageService {
 
-    @Autowired private ImageRepository repository;
+    @Autowired private ImageRepository imageRepository;
 
     private static final long MAX_BYTES = 5 * 1024 * 1024; // 5 MB
     private static final Set<String> ALLOWED_TYPES = Set.of(
@@ -32,7 +32,7 @@ public class ImageService {
         }
         // todo: make a check that this file is unique
 
-        repository.save(Image.builder()
+        imageRepository.save(Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .imageData(compressImage(file.getBytes())).build());
@@ -40,7 +40,7 @@ public class ImageService {
     }
 
     public byte[] downloadImage(String fileName) {
-        Optional<Image> dbImageData = repository.findByName(fileName);
+        Optional<Image> dbImageData = imageRepository.findByName(fileName);
         byte[] images = decompressImage(dbImageData.get().getImageData());
         return images;
     }
