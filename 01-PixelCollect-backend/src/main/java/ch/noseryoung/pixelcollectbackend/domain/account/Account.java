@@ -31,9 +31,6 @@ public class Account {
 
     @Column(nullable = false)
     @Check(constraints = "balance >= 0 AND balance <= 2147483647")
-//    @NotNull(message = "Account balance cannot be null")
-//    @PositiveOrZero(message = "Balance cant be negative")
-//    @Max(value = Integer.MAX_VALUE, message = "Balance exceeds the maximum allowed value")
     private Integer balance;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) // unique Index, kann NULL sein
