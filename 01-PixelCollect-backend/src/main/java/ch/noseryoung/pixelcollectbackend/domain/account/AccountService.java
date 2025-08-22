@@ -1,7 +1,11 @@
 package ch.noseryoung.pixelcollectbackend.domain.account;
 
 import ch.noseryoung.pixelcollectbackend.domain.account.dto.AccountAuthDTO;
+import ch.noseryoung.pixelcollectbackend.domain.product.Product;
+import ch.noseryoung.pixelcollectbackend.domain.product.ProductService;
+import ch.noseryoung.pixelcollectbackend.domain.product.Rarity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,12 +13,13 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.*;
 
 @Service
-
 public class AccountService {
 
     @Autowired private AccountRepository accountRepository;
+    @Autowired private ProductService productService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
@@ -66,6 +71,11 @@ public class AccountService {
                 .orElseThrow(() -> new IllegalArgumentException("There is no account with this id"));
     }
 
+    public Page<Product> getOwnedProducts(UUID key, String category, Rarity rarity, Boolean price,
+            String sortBy, String order, int page, int size) throws Exception {
+      return null;
+    }
+
     public Account buyProduct(UUID accountKey, UUID productId) throws Exception {
         UUID accountID = assertSessionValid(accountKey);
         // todo: ME
@@ -106,5 +116,9 @@ public class AccountService {
 
         acc.setBalance(acc.getBalance() + amount);
         return accountRepository.save(acc);
+    }
+
+    public List<Account> getOwnedProducts(UUID key) {
+        return accountRepository.getOwnedProducts();
     }
 }

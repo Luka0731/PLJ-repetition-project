@@ -1,10 +1,13 @@
 package ch.noseryoung.pixelcollectbackend.domain.account;
 
 import ch.noseryoung.pixelcollectbackend.domain.account.dto.AccountAuthDTO;
+import ch.noseryoung.pixelcollectbackend.domain.product.Rarity;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -40,6 +43,20 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccountByKey(key));
     }
 
+    @PutMapping(" accounts/me/products")
+    public ResponseEntity<List<Account>> getOwnedProducts(
+            @RequestHeader("X-Session-Key") UUID key,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Rarity rarity,
+            @RequestParam(required = false) Boolean price,
+            @RequestParam(required = false, defaultValue = "name") String sortBy,
+            @RequestParam(required = false, defaultValue = "asc") String order,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) throws Exception {
+        return ResponseEntity.ok(accountService.getOwnedProducts(key));
+    }
+
     @PutMapping("shop/buy/{productId}")
     public ResponseEntity<Account> buyProduct(@RequestHeader("X-Session-Key") UUID key, @PathVariable UUID productId) throws Exception {
         return ResponseEntity.ok(accountService.buyProduct(key, productId));
@@ -49,18 +66,4 @@ public class AccountController {
     public ResponseEntity<Account> sellProduct(@RequestHeader("X-Session-Key") UUID key, @PathVariable UUID productId) throws Exception {
         return ResponseEntity.ok(accountService.sellProduct(key, productId));
     }
-
-
-
-    // Testing -----------------------------------------------------------------------------------------------|
-
-    @PutMapping("/balance/increase")
-    public ResponseEntity<Account> increaseBalance(
-            @RequestHeader("X-Session-Key") UUID key,
-            @RequestParam int amount) throws Exception {
-
-        Account updated = accountService.increaseBalance(key, amount);
-        return ResponseEntity.ok(updated);
-    }
-
 }

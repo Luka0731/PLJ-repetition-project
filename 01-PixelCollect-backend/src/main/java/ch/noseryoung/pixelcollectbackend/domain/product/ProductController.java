@@ -11,7 +11,7 @@ public class ProductController {
     @Autowired private ProductRepository productService;
 
     /*
-    * getAllProducts
+    * getAllProducts (with filter system)
     * getProductById
     * createProduct
     * updateProduct
@@ -21,3 +21,12 @@ public class ProductController {
     * getOwnedProducts (with filter system)
     */
 }
+
+//            @RequestParam(required = false) String category,
+//            @RequestParam(required = false) Rarity rarity
+//            @RequestParam(required = false, defaultValue = "asc") String order,
+//            @RequestParam(required = false) Integer minPrice,
+//            @RequestParam(required = false) Integer maxPrice,
+//            @RequestParam(required = false) Boolean available,
+//            @RequestParam(required = false, defaultValue = "0") int page,
+//            @RequestParam(required = false, defaultValue = "10") int size
